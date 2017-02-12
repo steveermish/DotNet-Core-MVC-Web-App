@@ -3,8 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h2>Index</h2>
+
+<repeat count="5">
+
+<markdown>This is some _simple_ **markdown**.</markdown>
+
+@DateTime.Now.ToLocalTime()
+</repeat>
 
 <p>
     <a asp-action="Create">Create New</a>
