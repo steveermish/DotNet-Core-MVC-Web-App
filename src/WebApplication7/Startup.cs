@@ -47,7 +47,7 @@ namespace WebApplication7
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc().AddXmlDataContractSerializerFormatters();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

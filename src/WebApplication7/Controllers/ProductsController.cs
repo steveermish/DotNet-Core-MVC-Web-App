@@ -8,6 +8,7 @@ using WebApplication7.Models;
 namespace WebApplication7.Controllers
 {
     [Route("/api/[Controller]")]
+    [Produces("application/json")]
     public class ProductsController : ControllerBase
     {
         private static List<Product> _products = new List<Product>(new[]
@@ -22,9 +23,26 @@ namespace WebApplication7.Controllers
         public IEnumerable<Product> Get() => _products;
 
         [HttpGet("{id}")]
-        public Product Get(int id)
+        public IActionResult Get(int id)
         {
-            return _products.SingleOrDefault(p => p.Id == id);
+            var product = _products.SingleOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+            }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            _products.Add(product);
+            return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
 
         }
     }
